@@ -25,7 +25,7 @@ public class Skelton : MonoBehaviour
     {
         Vector3 vec = mCameraTrans.position;
         vec.y = transform.position.y;
-        var look = Quaternion.LookRotation(vec);
+        var look = Quaternion.LookRotation(vec - transform.position);
         transform.localRotation = look;
         transform.DOMove(vec,mMovingTime);
 
