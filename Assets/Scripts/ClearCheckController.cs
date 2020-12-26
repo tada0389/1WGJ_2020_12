@@ -50,6 +50,9 @@ public class ClearCheckController : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI scoreText_;
 
+    [SerializeField]
+    private TextureGallery galleryCtrl_;
+
     private Vector3 defaultPos_;
 
     private bool isCheking_ = false;
@@ -161,6 +164,8 @@ public class ClearCheckController : MonoBehaviour
             DOTween.To(() => tmpScore, (n) => tmpScore = n, curScore_, 1.0f).OnUpdate(
                 () => scoreText_.text = "SCORE\n" + (tmpScore).ToString() + "\n<color=red>+" + score.ToString() + "</color>")
                 .OnComplete(() => scoreText_.text = "SCORE\n" + curScore_.ToString());
+
+            if (galleryCtrl_ != null) galleryCtrl_.AddTexture(leftTexture_.Buffer_);
         }
 
         yield return new WaitForSeconds(moveDuration_ + 0.1f);
@@ -169,6 +174,8 @@ public class ClearCheckController : MonoBehaviour
         {
             // Type == Number の場合
             naichilab.RankingLoader.Instance.SendScoreAndShowRanking(curScore_);
+
+            if (galleryCtrl_ != null) galleryCtrl_.Show();
         }
         else
         {
@@ -185,7 +192,7 @@ public class ClearCheckController : MonoBehaviour
 
             yield return new WaitForSeconds(moveDuration_);
 
-            prevTime_ = Time.time;
+            if(isClear) prevTime_ = Time.time;
         }
 
         isCheking_ = false;
