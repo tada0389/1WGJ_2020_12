@@ -17,6 +17,10 @@ public class TitleController : MonoBehaviour
     [SerializeField]
     private RectTransform offButton_;
 
+    [Multiline]
+    [SerializeField]
+    private string ruleExplonation_ = "ルール説明";
+
 
     private void Start()
     {
@@ -49,7 +53,12 @@ public class TitleController : MonoBehaviour
 
     public void OnRuleButtonClicked()
     {
-        MessageManager.OpenKanbanWindow("ルール説明");
+        MessageManager.OpenKanbanWindow(ruleExplonation_);
+    }
+
+    public void OnRuleCloseButtonClicked()
+    {
+        MessageManager.CloseKanbanWindow();
     }
 
     public void OnOpenButtonClicked()

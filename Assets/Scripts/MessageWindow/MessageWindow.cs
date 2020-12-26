@@ -107,6 +107,7 @@ public class MessageWindow : MonoBehaviour
 
     public void WindowClose(bool isTimeScale = false)
     {
+        if (messageTextMesh == null) return;
         messageTextMesh.enabled = false;
         if (narratorImage != null) narratorImage.enabled = false;
         seq.Kill();
