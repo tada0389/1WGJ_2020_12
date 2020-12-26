@@ -25,10 +25,7 @@ public class AnswerTexture : TextureBase
         targetTexture_ = new Texture2D(mainTexture.width, mainTexture.height, TextureFormat.RGBA32, false);
         targetTexture_.filterMode = FilterMode.Point;
 
-        // 鍵データを読み込む
-        Buffer_ = Load();
-
-        ApplyTexture();
+        Reset();
     }
 
     private Color[] Load()
@@ -57,6 +54,14 @@ public class AnswerTexture : TextureBase
                     Buffer_.SetValue(new Color(1, 1, 1, 0.0f), x + targetTexture_.width * y);
             }
         }
+
+        ApplyTexture();
+    }
+
+    public override void Reset()
+    {
+        // 鍵データを読み込む
+        Buffer_ = Load();
 
         ApplyTexture();
     }

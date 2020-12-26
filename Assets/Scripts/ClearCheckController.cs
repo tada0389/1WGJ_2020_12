@@ -2,9 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
+using TMPro;
 
 public class ClearCheckController : MonoBehaviour
 {
+    [SerializeField]
+    private float clearThr_ = 0.6f;
+
     [SerializeField]
     private TextureBase leftTexture_;
 
@@ -18,7 +23,18 @@ public class ClearCheckController : MonoBehaviour
     private float moveDuration_ = 1.0f;
 
     [SerializeField]
-    private Text text_;
+    private float moveY_ = -5.0f;
+
+    [SerializeField]
+    private TextMeshProUGUI text_;
+
+    [SerializeField]
+    private Animator doorAnimation_;
+
+    [SerializeField]
+    private List<Ease> accuEases = new List<Ease>();
+
+    private Vector3 defaultPos_;
 
     private bool isCheking_ = false;
 
@@ -27,18 +43,14 @@ public class ClearCheckController : MonoBehaviour
     {
         leftParent_ = leftTexture_.transform.parent;
         rightParent_ = rightTexture_.transform.parent;
+
+        defaultPos_ = leftParent_.transform.position;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void CheckStart()
     {
-        if (Input.GetKeyDown(KeyCode.A)) UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
         if (isCheking_) return;
-
-        if (Input.GetMouseButtonDown(1))
-        {
-            StartCoroutine(Check());
-        }
+        StartCoroutine(Check());
     }
 
     private IEnumerator Check()
@@ -51,24 +63,57 @@ public class ClearCheckController : MonoBehaviour
         float leftPos = leftParent_.position.x;
         float rightPos = rightParent_.position.x;
 
-        float time = 0.0f;
+        // 正答率を求める
+        float accuRate = CalcAccuracy();
 
-        while(time < moveDuration_)
-        {
-            time += Time.deltaTime;
+        bool isClear = accuRate >= clearThr_;
 
-            float t = Mathf.Min(1.0f, time / moveDuration_);
+        // 正答率の文字の表示
+        text_.text = System.String.Format("{0:p2}", 0.0);
+        text_.DOFade(1.0f, 0.25f);
 
-            leftParent_.position = new Vector3(leftPos - (leftPos * t), 0f, 0f);
-            rightParent_.position = new Vector3(rightPos - (rightPos * t), 0f, 0f);
+        yield return new WaitForSeconds(0.25f);
 
-            yield return null;
-        }
+        // 正答率を表示
+        float tmpRate = 0.0f;
+        Ease useEase = accuEases[Random.Range(0, accuEases.Count)];
+        // 徐々に上げる
+        DOTween.To(() => tmpRate, (n) => tmpRate = n, accuRate, 0.75f).SetEase(useEase).OnUpdate(
+            () => text_.text = System.String.Format("{0:p2}", tmpRate)) ;
 
-        //ちょっと待つ
+        yield return new WaitForSeconds(0.75f);
 
-        yield return new WaitForSeconds(1.0f);
+        // エフェクトを表示
+        if (isClear) ;
+        else;
 
+        yield return new WaitForSeconds(0.25f);
+
+        // 鍵を下に隠す
+        leftParent_.DOMoveY(defaultPos_.y + moveY_, moveDuration_);
+        rightParent_.DOMoveY(defaultPos_.y + moveY_, moveDuration_);
+
+        // 正解ならドアを開ける
+        if (isClear) doorAnimation_.Play("Open");
+
+        yield return new WaitForSeconds(moveDuration_ + 0.1f);
+
+        // テクスチャ情報をリセットする
+        leftTexture_.Reset();
+        rightTexture_.Reset();
+
+        // テキストを消す
+        text_.DOFade(0.0f, 0.25f);
+
+        // 鍵を戻す
+        leftParent_.DOMoveY(defaultPos_.y, moveDuration_);
+        rightParent_.DOMoveY(defaultPos_.y, moveDuration_);
+
+        isCheking_ = false;
+    }
+
+    private float CalcAccuracy()
+    {
         // 正答率の計算
         var leftBuffer = leftTexture_.Buffer_;
         var rightBuffer = rightTexture_.Buffer_;
@@ -76,7 +121,7 @@ public class ClearCheckController : MonoBehaviour
         int correctNum = 0;
         int sum = 0;
 
-        for(int i = 0; i < leftBuffer.Length; ++i)
+        for (int i = 0; i < leftBuffer.Length; ++i)
         {
             bool left = leftBuffer[i].a >= 0.2f;
             bool right = rightBuffer[i].a >= 0.2f;
@@ -88,14 +133,10 @@ public class ClearCheckController : MonoBehaviour
             if (left && right) ++correctNum;
         }
 
-        float correctRate = (float)correctNum / sum * 100.0f;
+        float correctRate = (float)correctNum / sum;
 
-        text_.text = correctRate.ToString() + "%";
+        correctRate /= 0.95f;
 
-        yield return new WaitForSeconds(1.5f);
-
-        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
-
-        //isCheking_ = false;
+        return Mathf.Min(1.0f, Mathf.Sqrt(correctRate));
     }
 }

@@ -13,4 +13,6 @@ public abstract class TextureBase : MonoBehaviour
     public Color[] Buffer_ { protected set; get; }
 
     public abstract void ChangeColor();
+
+    public abstract void Reset();
 }
