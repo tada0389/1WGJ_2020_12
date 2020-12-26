@@ -7,6 +7,9 @@ public class DrawableTexture : TextureBase
     [SerializeField]
     private float thickness_ = 5.0f;
 
+    [SerializeField]
+    private int undoEnableNum_ = 3;
+
     private Texture2D targetTexture_;
 
     public int Width => targetTexture_.width;
@@ -16,9 +19,13 @@ public class DrawableTexture : TextureBase
 
     private bool prevHit_;
 
+    private List<Color[]> undoBuffer_;
+
     // Start is called before the first frame update
     private void Start()
     {
+        undoBuffer_ = new List<Color[]>(undoEnableNum_);
+
         Texture2D mainTexture = (Texture2D)GetComponent<Renderer>().material.mainTexture;
         Color[] pixels = mainTexture.GetPixels();
 
@@ -47,6 +54,20 @@ public class DrawableTexture : TextureBase
     {
         if (Input.GetMouseButton(0))
         {
+            if (Input.GetMouseButtonDown(0))
+            {
+                Color[] tmp = new Color[Buffer_.Length];
+                System.Array.Copy(Buffer_, tmp, Buffer_.Length);
+                undoBuffer_.Add(tmp);
+
+                if(undoBuffer_.Count == undoEnableNum_ + 1)
+                {
+                    var unused = undoBuffer_[0];
+                    unused = null;
+                    undoBuffer_.RemoveAt(0);
+                }
+            }
+
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
@@ -66,7 +87,21 @@ public class DrawableTexture : TextureBase
         else
         {
             prevHit_ = false;
+
+            if (Input.GetKeyDown(KeyCode.Z)) Undo();
         }
+    }
+
+    private void Undo()
+    {
+        Debug.Log(undoBuffer_.Count);
+        if (undoBuffer_.Count == 0) return;
+
+        Buffer_ = null;
+        Buffer_ = undoBuffer_[undoBuffer_.Count - 1];
+        undoBuffer_.RemoveAt(undoBuffer_.Count - 1);
+
+        ApplyTexture();
     }
 
     private void Draw(Vector2 from, Vector2 to)
