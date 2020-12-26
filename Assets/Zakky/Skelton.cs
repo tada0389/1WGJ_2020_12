@@ -9,15 +9,18 @@ public class Skelton : MonoBehaviour
     Transform mCameraTrans;
     [SerializeField]
     float mMovingTime;
+
     enum SkeltonState
     {
         Walk,
-        Run
+        Run,
+        Dead
     }
+
     [SerializeField]
     SkeltonState mSkeltonState = SkeltonState.Walk;
 
-    ZakkyLib.Timer[] mTimer = new ZakkyLib.Timer[2];
+    ZakkyLib.Timer[] mTimer = new ZakkyLib.Timer[System.Enum.GetNames(typeof(SkeltonState)).Length];
 
     Animator mAnimator;
     // Start is called before the first frame update
@@ -37,16 +40,35 @@ public class Skelton : MonoBehaviour
 
     void Update()
     {
+        StateChange();
+
+        SetStateIntoAnimator();
+    }
+
+    void StateChange()
+    {
         if (mSkeltonState == SkeltonState.Walk && mTimer[(int)SkeltonState.Walk].IsTimeout())
         {
             mSkeltonState = SkeltonState.Run;
-            mTimer[(int)SkeltonState.Run] = new ZakkyLib.Timer(mTimer[(int)SkeltonState.Run].GetLimitTime());
+            var t = mTimer[(int)SkeltonState.Run];
+            t = new ZakkyLib.Timer(t.GetLimitTime());
         }
         else if (mSkeltonState == SkeltonState.Run && mTimer[(int)SkeltonState.Run].IsTimeout())
         {
             mSkeltonState = SkeltonState.Walk;
-            mTimer[(int)SkeltonState.Walk] = new ZakkyLib.Timer(mTimer[(int)SkeltonState.Walk].GetLimitTime());
+            var t = mTimer[(int)SkeltonState.Walk];
+            t = new ZakkyLib.Timer(t.GetLimitTime());
         }
+    }
+
+    void SetStateIntoAnimator()
+    {
         mAnimator.SetBool("IsWalking", mSkeltonState == SkeltonState.Walk);
+        mAnimator.SetBool("IsDead", mSkeltonState == SkeltonState.Dead);
+    }
+
+    public void DaedSetter()
+    {
+        mSkeltonState = SkeltonState.Dead;
     }
 }
