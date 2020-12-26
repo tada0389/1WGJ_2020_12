@@ -133,7 +133,7 @@ public class DrawableTexture : TextureBase
         {
             prevClicked_ = false;
 
-            if (Input.GetKeyDown(KeyCode.Z)) Undo();
+            if (Input.GetMouseButtonDown(1)) Undo();
         }
     }
 

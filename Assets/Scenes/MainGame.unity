@@ -166,6 +166,7 @@ MonoBehaviour:
   text_: {fileID: 1398055572}
   doorAnimation_: {fileID: 1912004192}
   accuEases: 080000000a00000011000000
+  canvasGroup_: {fileID: 1257004739}
 --- !u!4 &104418860
 Transform:
   m_ObjectHideFlags: 0
@@ -2682,6 +2683,7 @@ GameObject:
   - component: {fileID: 1257004738}
   - component: {fileID: 1257004737}
   - component: {fileID: 1257004736}
+  - component: {fileID: 1257004739}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -2773,6 +2775,18 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!225 &1257004739
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1257004734}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1382779190
 GameObject:
   m_ObjectHideFlags: 0

@@ -41,6 +41,9 @@ public class ClearCheckController : MonoBehaviour
     [SerializeField]
     private List<Ease> accuEases = new List<Ease>();
 
+    [SerializeField]
+    private CanvasGroup canvasGroup_;
+
     private Vector3 defaultPos_;
 
     private bool isCheking_ = false;
@@ -52,7 +55,7 @@ public class ClearCheckController : MonoBehaviour
     private int curScore_;
 
     // Start is called before the first frame update
-    void Start()
+    private IEnumerator Start()
     {
         leftParent_ = leftTexture_.transform.parent;
         rightParent_ = rightTexture_.transform.parent;
@@ -61,6 +64,29 @@ public class ClearCheckController : MonoBehaviour
 
         prevTime_ = Time.time;
         curScore_ = 0;
+
+        isCheking_ = true;
+        leftParent_.position += new Vector3(0f, moveY_, 0f);
+        rightParent_.position += new Vector3(0f, moveY_, 0f);
+
+        // 始めは扉が開いてスタート
+
+        doorAnimation_.Play("Open", 0, 0.0f);
+
+        // 文字がフェードイン
+        canvasGroup_.DOFade(1.0f, 2.5f).SetEase(Ease.InCubic);
+
+        yield return new WaitForSeconds(moveDuration_ + 0.1f);
+
+        // 鍵を戻す
+        leftParent_.DOMoveY(defaultPos_.y, moveDuration_);
+        rightParent_.DOMoveY(defaultPos_.y, moveDuration_);
+
+        yield return new WaitForSeconds(moveDuration_);
+
+        prevTime_ = Time.time;
+
+        isCheking_ = false;
     }
 
     public void CheckStart()
@@ -138,7 +164,7 @@ public class ClearCheckController : MonoBehaviour
         prevTime_ = Time.time;
 
         // Type == Number の場合
-        naichilab.RankingLoader.Instance.SendScoreAndShowRanking(accuRate);
+        //naichilab.RankingLoader.Instance.SendScoreAndShowRanking(accuRate);
 
         isCheking_ = false;
     }
