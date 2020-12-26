@@ -94,7 +94,7 @@ public class ClearCheckController : MonoBehaviour
         rightParent_.DOMoveY(defaultPos_.y + moveY_, moveDuration_);
 
         // 正解ならドアを開ける
-        if (isClear) doorAnimation_.Play("Open");
+        if (isClear) doorAnimation_.Play("Open", 0, 0.0f);
 
         yield return new WaitForSeconds(moveDuration_ + 0.1f);
 
