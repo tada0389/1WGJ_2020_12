@@ -159,7 +159,7 @@ public class ClearCheckController : MonoBehaviour
             scoreText_.text = "SCORE\n0";
 
             DOTween.To(() => tmpScore, (n) => tmpScore = n, curScore_, 1.0f).OnUpdate(
-                () => scoreText_.text = "SCORE\n" + (tmpScore).ToString() + "\n<color=red>" + score.ToString() + "</color>")
+                () => scoreText_.text = "SCORE\n" + (tmpScore).ToString() + "\n<color=red>+" + score.ToString() + "</color>")
                 .OnComplete(() => scoreText_.text = "SCORE\n" + curScore_.ToString());
         }
 
