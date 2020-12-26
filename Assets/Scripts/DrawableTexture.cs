@@ -15,7 +15,7 @@ public class DrawableTexture : TextureBase
     public int Width => targetTexture_.width;
     public int Height => targetTexture_.height;
 
-    private Vector2 prevHitPos_;
+    private Vector2 prevPos;
 
     private bool prevHit_;
 
@@ -62,16 +62,16 @@ public class DrawableTexture : TextureBase
 
             if (Physics.Raycast(ray, out hit, 100.0f))
             {
+                prevHit_ = ConvertTexcoordPos(ref prevPos);
+
                 Vector2 to = hit.textureCoord * targetTexture_.width;
-                Vector2 from = (prevHit_) ? prevHitPos_ : to;
+                Vector2 from = (prevHit_) ? prevPos : to;
 
                 Draw(from, to);
                 ApplyTexture();
-
-                prevHitPos_ = to;
-                prevHit_ = true;
             }
-            else prevHit_ = false;
+
+            prevPos = Input.mousePosition;
         }
         else
         {
@@ -79,6 +79,20 @@ public class DrawableTexture : TextureBase
 
             if (Input.GetKeyDown(KeyCode.Z)) Undo();
         }
+    }
+
+    private bool ConvertTexcoordPos(ref Vector2 pos)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(pos);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, 100.0f))
+        {
+            pos = hit.textureCoord * targetTexture_.width;
+            return true;
+        }
+
+        return false;
     }
 
     private void Undo()
