@@ -35,6 +35,7 @@ public class MessageManager : SingletonMonoBehaviour<MessageManager>
 
     public static void CloseMessageWindow()
     {
+        if (Instance.messageWindow == null) return;
         Instance.messageWindow.WindowClose(true);
     }
 
