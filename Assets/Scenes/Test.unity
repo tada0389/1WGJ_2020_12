@@ -1800,10 +1800,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb87a18c4157361409dcceb559969ae3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clearThr_: 0.6
   leftTexture_: {fileID: 1861332886}
   rightTexture_: {fileID: 1821923032}
   moveDuration_: 1
-  text_: {fileID: 124530205}
+  moveY_: -5
+  text_: {fileID: 0}
+  doorAnimation_: {fileID: 0}
+  accuEases: 
 --- !u!4 &1740323257
 Transform:
   m_ObjectHideFlags: 0
@@ -2189,6 +2193,7 @@ MonoBehaviour:
   drawColor_: {r: 0, g: 0, b: 0, a: 1}
   answerColor_: {r: 0, g: 0, b: 1, a: 0.5}
   thickness_: 7
+  undoEnableNum_: 3
 --- !u!64 &1861332887
 MeshCollider:
   m_ObjectHideFlags: 0
