@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using NCMB;
 
 public class ClearCheckController : MonoBehaviour
 {
@@ -91,6 +92,15 @@ public class ClearCheckController : MonoBehaviour
         float correctRate = (float)correctNum / sum * 100.0f;
 
         text_.text = correctRate.ToString() + "%";
+
+        /*
+        NCMBObject testObj = new NCMBObject("TestClass");
+        testObj["message"] = correctRate.ToString();
+        testObj.SaveAsync();
+        */
+
+        // Type == Number の場合
+        naichilab.RankingLoader.Instance.SendScoreAndShowRanking(correctRate);
 
         yield return new WaitForSeconds(1.5f);
 
