@@ -21,6 +21,8 @@ public class DrawableTexture : TextureBase
 
     private List<Color[]> undoBuffer_;
 
+    private bool isLocked_;
+
     // Start is called before the first frame update
     private void Start()
     { 
@@ -41,6 +43,8 @@ public class DrawableTexture : TextureBase
     // Update is called once per frame
     private void Update()
     {
+        if (isLocked_) return;
+
         if (Input.GetMouseButton(0))
         {
             if (Input.GetMouseButtonDown(0))
@@ -204,6 +208,8 @@ public class DrawableTexture : TextureBase
 
     public override void ChangeColor()
     {
+        isLocked_ = true;
+
         for(int y = 0; y < targetTexture_.height; ++y)
         {
             for (int x = 0; x < targetTexture_.width; ++x)
@@ -235,6 +241,7 @@ public class DrawableTexture : TextureBase
         ApplyTexture();
 
         prevClicked_ = false;
+        isLocked_ = false;
     }
 
     //-----------------------------------------------------------------------
