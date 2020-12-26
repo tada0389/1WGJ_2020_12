@@ -23,9 +23,7 @@ public class DrawableTexture : TextureBase
 
     // Start is called before the first frame update
     private void Start()
-    {
-        undoBuffer_ = new List<Color[]>(undoEnableNum_);
-
+    { 
         Texture2D mainTexture = (Texture2D)GetComponent<Renderer>().material.mainTexture;
         Color[] pixels = mainTexture.GetPixels();
 
@@ -34,18 +32,9 @@ public class DrawableTexture : TextureBase
         targetTexture_ = new Texture2D(mainTexture.width, mainTexture.height, TextureFormat.RGBA32, false);
         targetTexture_.filterMode = FilterMode.Point;
 
-        // 色の初期化
-        for (int y = 0; y < mainTexture.height; ++y)
-        {
-            for (int x = 0; x < mainTexture.width; ++x)
-            {
-                Buffer_.SetValue(new Color(1, 1, 1, 0.5f), x + mainTexture.width * y);
-            }
-        }
+        undoBuffer_ = new List<Color[]>(undoEnableNum_);
 
-        ApplyTexture();
-
-        prevHit_ = false;
+        Reset();
     }
 
 
@@ -161,6 +150,25 @@ public class DrawableTexture : TextureBase
         }
 
         ApplyTexture();
+    }
+
+    public override void Reset()
+    {
+        // 白紙に戻す
+        undoBuffer_.Clear();
+
+        // 色の初期化
+        for (int y = 0; y < targetTexture_.height; ++y)
+        {
+            for (int x = 0; x < targetTexture_.width; ++x)
+            {
+                Buffer_.SetValue(new Color(1, 1, 1, 0.5f), x + targetTexture_.width * y);
+            }
+        }
+
+        ApplyTexture();
+
+        prevHit_ = false;
     }
 
     //-----------------------------------------------------------------------
