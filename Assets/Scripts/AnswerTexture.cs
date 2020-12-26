@@ -51,7 +51,7 @@ public class AnswerTexture : TextureBase
         {
             for (int x = 0; x < targetTexture_.width; ++x)
             {
-                if (Buffer_[x + targetTexture_.width * y].a > 0.75f)
+                if (Buffer_[x + targetTexture_.width * y].a > 0.25f)
                     Buffer_.SetValue(answerColor_, x + targetTexture_.width * y);
                 else
                     Buffer_.SetValue(new Color(1, 1, 1, 0.0f), x + targetTexture_.width * y);

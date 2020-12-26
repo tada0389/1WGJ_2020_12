@@ -44,7 +44,7 @@ public class TextureLoader : MonoBehaviour
 
             for (int j = 0; j < len; ++j)
             {
-                ret[cur++] = (str[i] == 'b')? drawColor : new Color(1, 1, 1, 0.5f);
+                ret[cur++] = (str[i] == 'b')? drawColor : new Color(1, 1, 1, 0.0f);
             }
 
             i += tmp.Length;
