@@ -138,7 +138,7 @@ public class ClearCheckController : MonoBehaviour
         prevTime_ = Time.time;
 
         // Type == Number の場合
-        //naichilab.RankingLoader.Instance.SendScoreAndShowRanking(accuRate);
+        naichilab.RankingLoader.Instance.SendScoreAndShowRanking(accuRate);
 
         isCheking_ = false;
     }
