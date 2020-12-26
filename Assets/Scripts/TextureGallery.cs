@@ -5,24 +5,50 @@ using UnityEngine;
 public class TextureGallery : MonoBehaviour
 {
     [SerializeField]
-    private int maxReserveNum_ = 10;
+    private GameObject gallery_;
 
-    public List<Color[]> Textures_ { private set; get; }
+    [SerializeField]
+    private List<GameObject> textures_;
+
+    private int cnt_;
 
     private void Start()
     {
-        Textures_ = new List<Color[]>();
+        gallery_.SetActive(false);
+        cnt_ = 0;
     }
 
+    public void Show()
+    {
+        gallery_.SetActive(true);
+    }
+
+    // 正解した絵だけを保存
     public void AddTexture(Color[] buf)
     {
-        // もし許容数を超えたなら先頭のを削除
-        if(Textures_.Count == maxReserveNum_)
+        Texture2D mainTexture = (Texture2D)textures_[cnt_].GetComponent<Renderer>().material.mainTexture;
+
+        Texture2D targetTexture = new Texture2D(mainTexture.width, mainTexture.height, TextureFormat.RGBA32, false);
+        targetTexture.filterMode = FilterMode.Point;
+
+        // 縦横半分に圧縮する
+
+        Color[] tmp = new Color[buf.Length / 4];
+
+        for (int i = 0; i < buf.Length / 4; ++i) tmp[i] = Color.white;
+
+        for(int i = 0; i < buf.Length; ++i)
         {
-            var tex = Textures_[0];
-            tex = null;
-            Textures_.RemoveAt(0);
+            int x = i % (mainTexture.height * 2);
+            int y = i / (mainTexture.width * 2);
+
+            int j = x / 2 + y / 2 * mainTexture.width;
+
+            if (buf[i].a > 0.25f) tmp[j] -= new Color(0.25f, 0.25f, 0.25f, 0.0f);
         }
-        Textures_.Add(buf);
+
+        targetTexture.SetPixels(tmp);
+        targetTexture.Apply();
+        textures_[cnt_++].GetComponent<Renderer>().material.mainTexture = targetTexture;
     }
 }
