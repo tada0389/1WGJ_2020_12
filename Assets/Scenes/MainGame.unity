@@ -150,6 +150,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb87a18c4157361409dcceb559969ae3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doorNum_: 5
+  bossDoorNum_: 1
   clearThr_: 0.6
   leftTexture_: {fileID: 1145081544}
   rightTexture_: {fileID: 1084685355}

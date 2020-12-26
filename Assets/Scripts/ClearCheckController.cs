@@ -9,6 +9,12 @@ using NCMB;
 public class ClearCheckController : MonoBehaviour
 {
     [SerializeField]
+    private int doorNum_ = 5;
+
+    [SerializeField]
+    private int bossDoorNum_ = 1;
+
+    [SerializeField]
     private float clearThr_ = 0.6f;
 
     [SerializeField]
@@ -39,6 +45,12 @@ public class ClearCheckController : MonoBehaviour
 
     private bool isCheking_ = false;
 
+    private int clearNum_ = 0;
+
+    private float prevTime_;
+
+    private int curScore_;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,6 +58,9 @@ public class ClearCheckController : MonoBehaviour
         rightParent_ = rightTexture_.transform.parent;
 
         defaultPos_ = leftParent_.transform.position;
+
+        prevTime_ = Time.time;
+        curScore_ = 0;
     }
 
     public void CheckStart()
@@ -56,6 +71,8 @@ public class ClearCheckController : MonoBehaviour
 
     private IEnumerator Check()
     {
+        float curTime = Time.time;
+
         isCheking_ = true;
 
         leftTexture_.ChangeColor();
@@ -95,7 +112,13 @@ public class ClearCheckController : MonoBehaviour
         rightParent_.DOMoveY(defaultPos_.y + moveY_, moveDuration_);
 
         // 正解ならドアを開ける
-        if (isClear) doorAnimation_.Play("Open", 0, 0.0f);
+        if (isClear)
+        {
+            doorAnimation_.Play("Open", 0, 0.0f);
+            int score = CalcScore(curTime - prevTime_, accuRate);
+            curScore_ += score;
+            ++clearNum_;
+        }
 
         yield return new WaitForSeconds(moveDuration_ + 0.1f);
 
@@ -109,6 +132,10 @@ public class ClearCheckController : MonoBehaviour
         // 鍵を戻す
         leftParent_.DOMoveY(defaultPos_.y, moveDuration_);
         rightParent_.DOMoveY(defaultPos_.y, moveDuration_);
+
+        yield return new WaitForSeconds(moveDuration_);
+
+        prevTime_ = Time.time;
 
         // Type == Number の場合
         //naichilab.RankingLoader.Instance.SendScoreAndShowRanking(accuRate);
@@ -142,5 +169,12 @@ public class ClearCheckController : MonoBehaviour
         correctRate /= 0.95f;
 
         return Mathf.Min(1.0f, Mathf.Sqrt(correctRate));
+    }
+
+    private int CalcScore(float eclipsedTime, float accuRate)
+    {
+        // スコア = max(0.0f, 10.0f - 経過時間) * 500 + 一致率 * 2000
+
+        return (int)(Mathf.Max(0.0f, 10.0f - eclipsedTime) * 500 + accuRate * 2000);
     }
 }
