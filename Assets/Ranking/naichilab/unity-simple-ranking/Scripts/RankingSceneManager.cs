@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System.Linq;
 using NCMB;
 using NCMB.Extensions;
+using TMPro;
 
 namespace naichilab
 {
@@ -14,9 +15,9 @@ namespace naichilab
         private const string COLUMN_NAME = "name";
 
 
-        [SerializeField] Text captionLabel;
-        [SerializeField] Text scoreLabel;
-        [SerializeField] Text highScoreLabel;
+        [SerializeField] TextMeshProUGUI captionLabel;
+        [SerializeField] TextMeshProUGUI scoreLabel;
+        [SerializeField] TextMeshProUGUI highScoreLabel;
         [SerializeField] InputField nameInputField;
         [SerializeField] Button sendScoreButton;
         [SerializeField] Button closeButton;
@@ -80,7 +81,7 @@ namespace naichilab
         IEnumerator GetHighScoreAndRankingBoard()
         {
             scoreLabel.text = _lastScore.TextForDisplay;
-            captionLabel.text = string.Format("{0}ランキング", _board.BoardName);
+            //captionLabel.text = string.Format("{0}ランキング", _board.BoardName);
 
             //ハイスコア取得
             {
