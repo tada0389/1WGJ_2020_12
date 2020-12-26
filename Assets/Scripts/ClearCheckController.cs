@@ -185,7 +185,7 @@ public class ClearCheckController : MonoBehaviour
 
             yield return new WaitForSeconds(moveDuration_);
 
-            prevTime_ = Time.time;
+            if(isClear) prevTime_ = Time.time;
         }
 
         isCheking_ = false;
