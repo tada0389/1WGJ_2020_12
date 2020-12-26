@@ -44,6 +44,12 @@ public class ClearCheckController : MonoBehaviour
     [SerializeField]
     private CanvasGroup canvasGroup_;
 
+    [SerializeField]
+    private TextMeshProUGUI remainDoorText_;
+
+    [SerializeField]
+    private TextMeshProUGUI scoreText_;
+
     private Vector3 defaultPos_;
 
     private bool isCheking_ = false;
@@ -64,6 +70,9 @@ public class ClearCheckController : MonoBehaviour
 
         prevTime_ = Time.time;
         curScore_ = 0;
+
+        remainDoorText_.text = "残り枚数\n" + (doorNum_ + bossDoorNum_).ToString();
+        scoreText_.text = "SCORE\n0";
 
         isCheking_ = true;
         leftParent_.position += new Vector3(0f, moveY_, 0f);
@@ -142,29 +151,42 @@ public class ClearCheckController : MonoBehaviour
         {
             doorAnimation_.Play("Open", 0, 0.0f);
             int score = CalcScore(curTime - prevTime_, accuRate);
+            int tmpScore = curScore_;
             curScore_ += score;
             ++clearNum_;
+
+            remainDoorText_.text = "残り枚数\n" + (doorNum_ + bossDoorNum_ - clearNum_).ToString();
+            scoreText_.text = "SCORE\n0";
+
+            DOTween.To(() => tmpScore, (n) => tmpScore = n, curScore_, 1.0f).OnUpdate(
+                () => scoreText_.text = "SCORE\n" + (tmpScore).ToString() + "\n<color=red>" + score.ToString() + "</color>")
+                .OnComplete(() => scoreText_.text = "SCORE\n" + curScore_.ToString());
         }
 
         yield return new WaitForSeconds(moveDuration_ + 0.1f);
 
-        // テクスチャ情報をリセットする
-        leftTexture_.Reset();
-        rightTexture_.Reset();
+        if (clearNum_ == (bossDoorNum_ + doorNum_))
+        {
+            // Type == Number の場合
+            naichilab.RankingLoader.Instance.SendScoreAndShowRanking(curScore_);
+        }
+        else
+        {
+            // テクスチャ情報をリセットする
+            leftTexture_.Reset();
+            rightTexture_.Reset();
 
-        // テキストを消す
-        text_.DOFade(0.0f, 0.25f);
+            // テキストを消す
+            text_.DOFade(0.0f, 0.25f);
 
-        // 鍵を戻す
-        leftParent_.DOMoveY(defaultPos_.y, moveDuration_);
-        rightParent_.DOMoveY(defaultPos_.y, moveDuration_);
+            // 鍵を戻す
+            leftParent_.DOMoveY(defaultPos_.y, moveDuration_);
+            rightParent_.DOMoveY(defaultPos_.y, moveDuration_);
 
-        yield return new WaitForSeconds(moveDuration_);
+            yield return new WaitForSeconds(moveDuration_);
 
-        prevTime_ = Time.time;
-
-        // Type == Number の場合
-        naichilab.RankingLoader.Instance.SendScoreAndShowRanking(100 *  accuRate);
+            prevTime_ = Time.time;
+        }
 
         isCheking_ = false;
     }
@@ -199,8 +221,8 @@ public class ClearCheckController : MonoBehaviour
 
     private int CalcScore(float eclipsedTime, float accuRate)
     {
-        // スコア = max(0.0f, 10.0f - 経過時間) * 500 + 一致率 * 2000
+        // スコア = max(0.0f, 10.0f - 経過時間) * 500 + 一致率 * 5000
 
-        return (int)(Mathf.Max(0.0f, 10.0f - eclipsedTime) * 500 + accuRate * 2000);
+        return (int)(Mathf.Max(0.0f, 10.0f - eclipsedTime) * 500 + accuRate * 2500);
     }
 }

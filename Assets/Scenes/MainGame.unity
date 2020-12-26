@@ -206,6 +206,8 @@ MonoBehaviour:
   doorAnimation_: {fileID: 1912004192}
   accuEases: 080000000a00000011000000
   canvasGroup_: {fileID: 1257004739}
+  remainDoorText_: {fileID: 969984897}
+  scoreText_: {fileID: 1199253222}
 --- !u!4 &104418860
 Transform:
   m_ObjectHideFlags: 0
