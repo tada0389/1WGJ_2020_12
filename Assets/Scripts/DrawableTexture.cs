@@ -15,9 +15,9 @@ public class DrawableTexture : TextureBase
     public int Width => targetTexture_.width;
     public int Height => targetTexture_.height;
 
-    private Vector2 prevPos;
+    private Vector2 prevMousePos;
 
-    private bool prevHit_;
+    private bool prevClicked_;
 
     private List<Color[]> undoBuffer_;
 
@@ -57,38 +57,90 @@ public class DrawableTexture : TextureBase
                 }
             }
 
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
+            Vector2 to = Vector2.zero;
+            Vector2 from = Vector2.zero;
 
-            if (Physics.Raycast(ray, out hit, 100.0f))
+            bool hit = ConvertTexcoordPos(Input.mousePosition, ref to);
+
+            if (hit)
             {
-                prevHit_ = ConvertTexcoordPos(ref prevPos);
+                if (prevClicked_)
+                {
+                    bool prevHit = ConvertTexcoordPos(prevMousePos, ref from);
+                    // 二分探索で境目を探す
+                    if (!prevHit)         // 前回範囲外、今回範囲内
+                    {
+                        float left = 0.0f;
+                        float right = 1.0f;
 
-                Vector2 to = hit.textureCoord * targetTexture_.width;
-                Vector2 from = (prevHit_) ? prevPos : to;
+                        while(right - left > 1e-3)
+                        {
+                            float mid = (right + left) / 2.0f;
+                            Vector2 tmp = prevMousePos + ((Vector2)Input.mousePosition - prevMousePos) * mid;
+
+                            if (!ConvertTexcoordPos(tmp, ref from)) left = mid;
+                            else right = mid;
+                        }
+
+                        Vector2 edgePos = prevMousePos + ((Vector2)Input.mousePosition - prevMousePos) * right;
+                        ConvertTexcoordPos(edgePos, ref from);
+                    }
+                }
+                else    // これが最初のタッチ
+                {
+                    from = to;
+                }
 
                 Draw(from, to);
                 ApplyTexture();
             }
+            else if(prevClicked_)
+            {
+                bool prevHit = ConvertTexcoordPos(prevMousePos, ref from);
+                if (prevHit)    // 前回範囲内、今回範囲外
+                {
+                    // 二分探索で境目を探す
 
-            prevPos = Input.mousePosition;
+                    float left = 0.0f;
+                    float right = 1.0f;
+
+                    while (right - left > 1e-3)
+                    {
+                        float mid = (right + left) / 2.0f;
+                        Vector2 tmp = prevMousePos + ((Vector2)Input.mousePosition - prevMousePos) * mid;
+
+                        if (ConvertTexcoordPos(tmp, ref to)) left = mid;
+                        else right = mid;
+                    }
+
+                    Vector2 edgePos = prevMousePos + ((Vector2)Input.mousePosition - prevMousePos) * left;
+                    ConvertTexcoordPos(edgePos, ref to);
+
+
+                    Draw(from, to);
+                    ApplyTexture();
+                }
+            }
+
+            prevClicked_ = true;
+            prevMousePos = Input.mousePosition;
         }
         else
         {
-            prevHit_ = false;
+            prevClicked_ = false;
 
             if (Input.GetKeyDown(KeyCode.Z)) Undo();
         }
     }
 
-    private bool ConvertTexcoordPos(ref Vector2 pos)
+    private bool ConvertTexcoordPos(Vector3 inPos, ref Vector2 outPos)
     {
-        Ray ray = Camera.main.ScreenPointToRay(pos);
+        Ray ray = Camera.main.ScreenPointToRay(inPos);
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, 100.0f))
         {
-            pos = hit.textureCoord * targetTexture_.width;
+            outPos = hit.textureCoord * targetTexture_.width;
             return true;
         }
 
@@ -182,7 +234,7 @@ public class DrawableTexture : TextureBase
 
         ApplyTexture();
 
-        prevHit_ = false;
+        prevClicked_ = false;
     }
 
     //-----------------------------------------------------------------------
