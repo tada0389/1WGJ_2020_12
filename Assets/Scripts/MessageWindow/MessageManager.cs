@@ -5,7 +5,7 @@ using TadaLib;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class MessageManager : SingletonMonoBehaviour<MessageManager>
+public class MessageManager : MonoBehaviour
 {
     [SerializeField]
     private MessageWindow messageWindow;
@@ -19,50 +19,50 @@ public class MessageManager : SingletonMonoBehaviour<MessageManager>
         SceneManager.sceneLoaded += Close;
     }
 
-    public static void OpenMessageWindow(string textStr)
+    public void OpenMessageWindow(string textStr)
     {
-        Instance.messageWindow.gameObject.SetActive(true);
-        Instance.messageWindow.WindowOpen(textStr);
+        messageWindow.gameObject.SetActive(true);
+        messageWindow.WindowOpen(textStr);
         // Time.timeScale = 0.0f; // 変更 tada
     }
 
-    public static void OpenMessageWindow(string textStr, Sprite sprite)
+    public void OpenMessageWindow(string textStr, Sprite sprite)
     {
-        Instance.messageWindow.gameObject.SetActive(true);
-        Instance.messageWindow.WindowOpen(textStr, sprite);
+        messageWindow.gameObject.SetActive(true);
+        messageWindow.WindowOpen(textStr, sprite);
         // Time.timeScale = 0.0f; // 変更 tada
     }
 
-    public static void CloseMessageWindow()
+    public void CloseMessageWindow()
     {
-        if (Instance.messageWindow == null) return;
-        Instance.messageWindow.WindowClose(true);
+        if (messageWindow == null) return;
+        messageWindow.WindowClose(true);
     }
 
-    public static void OpenKanbanWindow(string textStr)
+    public void OpenKanbanWindow(string textStr)
     {
-        Instance.kanbanWindow.gameObject.SetActive(true);
-        Instance.kanbanWindow.WindowOpen(textStr);
+        kanbanWindow.gameObject.SetActive(true);
+        kanbanWindow.WindowOpen(textStr);
     }
 
-    public static void CloseKanbanWindow()
+    public void CloseKanbanWindow()
     {
-        Instance.kanbanWindow.WindowClose();
+        kanbanWindow.WindowClose();
     }
 
-    public static void InitMessage(string textStr)
+    public void InitMessage(string textStr)
     {
-        Instance.messageWindow.MessageInit(textStr);
+        messageWindow.MessageInit(textStr);
     }
 
-    public static bool isSending()
+    public bool isSending()
     {
-        return Instance.messageWindow.isSending;
+        return messageWindow.isSending;
     }
 
-    public static void FinishMessage()
+    public void FinishMessage()
     {
-        Instance.messageWindow.MessageFinish();
+        messageWindow.MessageFinish();
     }
 
     void Close(Scene nextScene, LoadSceneMode mode)

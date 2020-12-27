@@ -5,6 +5,11 @@ using DG.Tweening;
 
 public class TitleController : MonoBehaviour
 {
+    public static bool isPoseEffectEnabled = true;
+
+    [SerializeField]
+    private MessageManager messageManager_;
+
     [SerializeField]
     private CanvasGroup canvasGroup_;
 
@@ -24,12 +29,6 @@ public class TitleController : MonoBehaviour
     [SerializeField]
     private string ruleExplonation_ = "ルール説明";
 
-
-    private void Start()
-    {
-        DontDestroyOnLoad(postEffectVolume_);
-    }
-
     public void OnPostEffectOnButtonClicked()
     {
         if (postEffectVolume_.activeSelf) return;
@@ -40,6 +39,7 @@ public class TitleController : MonoBehaviour
         offButton_.DOScale(0.9f, 0.25f);
 
         postEffectVolume_.SetActive(true);
+        isPoseEffectEnabled = true;
     }
 
     public void OnPostEffectOffButtonClicked()
@@ -52,18 +52,19 @@ public class TitleController : MonoBehaviour
         offButton_.DOScale(1.3f, 0.25f);
 
         postEffectVolume_.SetActive(false);
+        isPoseEffectEnabled = false;
     }
 
     public void OnRuleButtonClicked()
     {
         ruleCloseButton_.SetActive(true);
-        MessageManager.OpenKanbanWindow(ruleExplonation_);
+        messageManager_.OpenKanbanWindow(ruleExplonation_);
     }
 
     public void OnRuleCloseButtonClicked()
     {
         ruleCloseButton_.SetActive(false);
-        MessageManager.CloseKanbanWindow();
+        messageManager_.CloseKanbanWindow();
     }
 
     public void OnOpenButtonClicked()
