@@ -59,6 +59,12 @@ public class ClearCheckController : MonoBehaviour
     [SerializeField]
     private TextureGallery galleryCtrl_;
 
+    [SerializeField]
+    private Skelton skeletonCtrl_;
+
+    [SerializeField]
+    private CameraController cameraCtrl_;
+
 
     private Vector3 textureDefaultPos_;
     private Vector3 levelTextDefaultPos_;
@@ -94,6 +100,10 @@ public class ClearCheckController : MonoBehaviour
 
         // 始めは扉が開いてスタート
 
+        Vector3 skeltonPos = skeletonCtrl_.transform.localPosition;
+        skeltonPos.z -= 10.0f;
+        skeletonCtrl_.transform.localPosition = skeltonPos;
+
         doorAnimation_.Play("Open", 0, 0.0f);
 
         // 文字がフェードイン
@@ -119,6 +129,22 @@ public class ClearCheckController : MonoBehaviour
         prevTime_ = Time.time;
 
         isCheking_ = false;
+    }
+
+    private void Update()
+    {
+        if(skeletonCtrl_.transform.localPosition.z > -3f)
+        {
+            GameOver();
+        }
+    }
+
+    private void GameOver()
+    {
+        StopAllCoroutines();
+
+        // ゲームオーバーシーン
+        UnityEngine.SceneManagement.SceneManager.LoadScene("GameOver");
     }
 
     public void CheckStart()
@@ -167,6 +193,14 @@ public class ClearCheckController : MonoBehaviour
         // 正解ならドアを開ける
         if (isClear)
         {
+            if (isLast) skeletonCtrl_.enabled = false;
+            else
+            {
+                Vector3 skeltonPos = skeletonCtrl_.transform.localPosition;
+                skeltonPos.z -= 10.0f;
+                skeletonCtrl_.transform.localPosition = skeltonPos;
+            }
+
             if (!isLast) doorAnimation_.Play("Open", 0, 0.0f);
             else doorAnimation_.Play("Chest");
 
@@ -190,6 +224,7 @@ public class ClearCheckController : MonoBehaviour
         // クリア処理
         if (isClear && isLast)
         {
+            cameraCtrl_.LookForward();
 
             yield return new WaitForSeconds(1.0f);
 
