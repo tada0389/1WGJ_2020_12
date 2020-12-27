@@ -45,15 +45,23 @@ public class ClearCheckController : MonoBehaviour
     private CanvasGroup canvasGroup_;
 
     [SerializeField]
+    private CanvasGroup resultCanvasGroup_;
+
+    [SerializeField]
     private TextMeshProUGUI remainDoorText_;
 
     [SerializeField]
     private TextMeshProUGUI scoreText_;
 
     [SerializeField]
+    private TextMeshProUGUI levelText_;
+
+    [SerializeField]
     private TextureGallery galleryCtrl_;
 
-    private Vector3 defaultPos_;
+
+    private Vector3 textureDefaultPos_;
+    private Vector3 levelTextDefaultPos_;
 
     private bool isCheking_ = false;
 
@@ -61,15 +69,18 @@ public class ClearCheckController : MonoBehaviour
 
     private float prevTime_;
 
-    private int curScore_;
+    public static int curScore_ { private set; get; }
 
     // Start is called before the first frame update
     private IEnumerator Start()
     {
+        curScore_ = 0;
+
         leftParent_ = leftTexture_.transform.parent;
         rightParent_ = rightTexture_.transform.parent;
 
-        defaultPos_ = leftParent_.transform.position;
+        textureDefaultPos_ = leftParent_.transform.position;
+        levelTextDefaultPos_ = levelText_.rectTransform.position;
 
         prevTime_ = Time.time;
         curScore_ = 0;
@@ -91,10 +102,19 @@ public class ClearCheckController : MonoBehaviour
         yield return new WaitForSeconds(moveDuration_ + 0.1f);
 
         // 鍵を戻す
-        leftParent_.DOMoveY(defaultPos_.y, moveDuration_);
-        rightParent_.DOMoveY(defaultPos_.y, moveDuration_);
+        leftParent_.DOMoveY(textureDefaultPos_.y, moveDuration_);
+        rightParent_.DOMoveY(textureDefaultPos_.y, moveDuration_);
+
+        // レベルテキストを表示
+        // 座標を変更
+        levelText_.rectTransform.position = levelTextDefaultPos_;
+        levelText_.text = "LEVEL " + (clearNum_ + 1).ToString();
+        levelText_.DOFade(1.0f, 0.5f);
+        levelText_.rectTransform.DOMoveY(levelTextDefaultPos_.y + 50f, 0.75f).SetEase(Ease.OutSine);
 
         yield return new WaitForSeconds(moveDuration_);
+
+        levelText_.DOFade(0.0f, 0.5f);
 
         prevTime_ = Time.time;
 
@@ -146,8 +166,8 @@ public class ClearCheckController : MonoBehaviour
         yield return new WaitForSeconds(0.25f);
 
         // 鍵を下に隠す
-        leftParent_.DOMoveY(defaultPos_.y + moveY_, moveDuration_);
-        rightParent_.DOMoveY(defaultPos_.y + moveY_, moveDuration_);
+        leftParent_.DOMoveY(textureDefaultPos_.y + moveY_, moveDuration_);
+        rightParent_.DOMoveY(textureDefaultPos_.y + moveY_, moveDuration_);
 
         // 正解ならドアを開ける
         if (isClear)
@@ -173,9 +193,19 @@ public class ClearCheckController : MonoBehaviour
         if (clearNum_ == (bossDoorNum_ + doorNum_))
         {
             // Type == Number の場合
-            naichilab.RankingLoader.Instance.SendScoreAndShowRanking(curScore_);
+            //naichilab.RankingLoader.Instance.SendScoreAndShowRanking(curScore_);
+
+            yield return new WaitForSeconds(1.0f);
+
+            // UIを消す
+            canvasGroup_.DOFade(0.0f, 0.25f);
 
             if (galleryCtrl_ != null) galleryCtrl_.Show();
+
+            yield return new WaitForSeconds(1.0f);
+
+            // ランキングボタン、ホームボタンを出す
+            resultCanvasGroup_.DOFade(1.0f, 0.25f);
         }
         else
         {
@@ -187,12 +217,25 @@ public class ClearCheckController : MonoBehaviour
             text_.DOFade(0.0f, 0.25f);
 
             // 鍵を戻す
-            leftParent_.DOMoveY(defaultPos_.y, moveDuration_);
-            rightParent_.DOMoveY(defaultPos_.y, moveDuration_);
+            leftParent_.DOMoveY(textureDefaultPos_.y, moveDuration_);
+            rightParent_.DOMoveY(textureDefaultPos_.y, moveDuration_);
+
+            if (isClear)
+            {
+                // レベルテキスト
+                // 座標を変更
+                levelText_.rectTransform.position = levelTextDefaultPos_;
+                levelText_.text = "LEVEL " + (clearNum_ + 1).ToString();
+                levelText_.DOFade(1.0f, 0.5f);
+                levelText_.rectTransform.DOMoveY(levelTextDefaultPos_.y + 50f, 0.75f).SetEase(Ease.OutSine);
+            }
 
             yield return new WaitForSeconds(moveDuration_);
 
-            if(isClear) prevTime_ = Time.time;
+            if(isClear)
+                levelText_.DOFade(0.0f, 0.5f);
+
+            if (isClear) prevTime_ = Time.time;
         }
 
         isCheking_ = false;
