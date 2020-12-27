@@ -265,7 +265,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 57578718}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Ranking
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -583,7 +583,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 167922861}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Gallery
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -621,7 +621,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 183141617}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: KeyLeft (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -876,7 +876,7 @@ GameObject:
   - component: {fileID: 282349762}
   - component: {fileID: 282349761}
   - component: {fileID: 282349760}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: drawTexture
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1060,7 +1060,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 334073234}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: KeyLeft (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1484,6 +1484,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NCMBSettings
       objectReference: {fileID: 0}
+    - target: {fileID: 1253119521504666, guid: ce1a90c7bf72049dab8ca4a87a9f865e, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 4364782949444442, guid: ce1a90c7bf72049dab8ca4a87a9f865e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1587,7 +1591,7 @@ GameObject:
   - component: {fileID: 498549083}
   - component: {fileID: 498549082}
   - component: {fileID: 498549081}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: drawTexture
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2874,7 +2878,7 @@ MonoBehaviour:
   volumeTrigger: {fileID: 786981916}
   volumeLayer:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 5
   stopNaNPropagation: 1
   finalBlitToCameraTarget: 0
   antialiasingMode: 1
@@ -3024,7 +3028,7 @@ GameObject:
   - component: {fileID: 804394782}
   - component: {fileID: 804394781}
   - component: {fileID: 804394780}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: drawTexture
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3242,7 +3246,7 @@ GameObject:
   - component: {fileID: 835895384}
   - component: {fileID: 835895383}
   - component: {fileID: 835895382}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: drawTexture
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3571,7 +3575,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 45, y: 45}
+  m_SizeDelta: {x: 38, y: 38}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &931449361
 MonoBehaviour:
@@ -3855,7 +3859,7 @@ GameObject:
   - component: {fileID: 986860498}
   - component: {fileID: 986860497}
   - component: {fileID: 986860496}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: drawTexture
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4189,7 +4193,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1053033960}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: KeyLeft (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4314,7 +4318,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1068718312}
   - component: {fileID: 1068718313}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4647,6 +4651,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NCMBManager
       objectReference: {fileID: 0}
+    - target: {fileID: 1082003255284418, guid: 4acbb266088a045338833062583edede, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 4337469349176958, guid: 4acbb266088a045338833062583edede, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -4795,7 +4803,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1136516025}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: KeyLeft (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4827,7 +4835,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1137278459}
   - component: {fileID: 1137278458}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GalleryController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5117,6 +5125,10 @@ PrefabInstance:
     - target: {fileID: 1712139114035474, guid: ee393f04960d94baeaf854699b2ae1e3, type: 3}
       propertyPath: m_Name
       value: RankingLoader
+      objectReference: {fileID: 0}
+    - target: {fileID: 1712139114035474, guid: ee393f04960d94baeaf854699b2ae1e3, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4817098320978224, guid: ee393f04960d94baeaf854699b2ae1e3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5521,7 +5533,7 @@ GameObject:
   - component: {fileID: 1312057651}
   - component: {fileID: 1312057650}
   - component: {fileID: 1312057649}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GalleryText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5566,7 +5578,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: YOUR GALLERY
+  m_text: CONGURATULATION!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d6950e5000f408748a2f4be6609f5875, type: 2}
   m_sharedMaterial: {fileID: -6295509329060734256, guid: d6950e5000f408748a2f4be6609f5875,
@@ -5576,8 +5588,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190335
+  m_fontColor: {r: 1, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -5594,8 +5606,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 48
-  m_fontSizeBase: 48
+  m_fontSize: 54
+  m_fontSizeBase: 54
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -5720,7 +5732,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 40, y: 40}
+  m_SizeDelta: {x: 33, y: 33}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1344411442
 MonoBehaviour:
@@ -5861,7 +5873,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1349870419}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: KeyLeft (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6373,7 +6385,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1437363261}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: KeyLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6633,7 +6645,7 @@ GameObject:
   - component: {fileID: 1573182099}
   - component: {fileID: 1573182098}
   - component: {fileID: 1573182097}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: drawTexture
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7147,7 +7159,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!225 &1758949690
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -7419,8 +7431,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 345, y: -100}
-  m_SizeDelta: {x: 70, y: 70}
+  m_AnchoredPosition: {x: 308.4, y: -80}
+  m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1820551829
 MonoBehaviour:
@@ -8834,8 +8846,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 345, y: -200}
-  m_SizeDelta: {x: 70, y: 70}
+  m_AnchoredPosition: {x: 308.4, y: -180}
+  m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2131374435
 MonoBehaviour:
