@@ -771,7 +771,7 @@ PrefabInstance:
     - target: {fileID: 2890936818106775007, guid: 2f4ff152b05cd874b828dd10ef01497d,
         type: 3}
       propertyPath: mGetaSFX.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2890936818106775007, guid: 2f4ff152b05cd874b828dd10ef01497d,
         type: 3}
@@ -792,22 +792,22 @@ PrefabInstance:
         type: 3}
       propertyPath: mGetaSFX.Array.data[0]
       value: 
-      objectReference: {fileID: 8300000, guid: f6fc8404263ea614f8f1c00442875e95, type: 3}
+      objectReference: {fileID: 8300000, guid: cd9f04052691c4349ae99160754fc1e4, type: 3}
     - target: {fileID: 2890936818106775007, guid: 2f4ff152b05cd874b828dd10ef01497d,
         type: 3}
       propertyPath: mGetaSFX.Array.data[1]
       value: 
-      objectReference: {fileID: 8300000, guid: 61e1eacabb614fc459990447eed45563, type: 3}
+      objectReference: {fileID: 8300000, guid: bbfde1bf808ce1a49bee62fac2f226d8, type: 3}
     - target: {fileID: 2890936818106775007, guid: 2f4ff152b05cd874b828dd10ef01497d,
         type: 3}
       propertyPath: mGetaSFX.Array.data[2]
       value: 
-      objectReference: {fileID: 8300000, guid: 6642b6cd8d689824b917a0e92e32e038, type: 3}
+      objectReference: {fileID: 8300000, guid: 1b06c2d7252a8ae4ea56bb6083139a6f, type: 3}
     - target: {fileID: 2890936818106775007, guid: 2f4ff152b05cd874b828dd10ef01497d,
         type: 3}
       propertyPath: mGetaSFX.Array.data[3]
       value: 
-      objectReference: {fileID: 8300000, guid: f6fc8404263ea614f8f1c00442875e95, type: 3}
+      objectReference: {fileID: 8300000, guid: b4638ed5b5e2b3949a92daac5e4b4e1d, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f4ff152b05cd874b828dd10ef01497d, type: 3}
 --- !u!1 &104418858
