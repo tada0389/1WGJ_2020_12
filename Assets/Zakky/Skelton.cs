@@ -8,9 +8,11 @@ public class Skelton : MonoBehaviour
     [SerializeField]
     Transform mCameraTrans;
     [SerializeField]
-    float mMovingTime = 50f;
+    float mMovingTime = 100f;
     [SerializeField]
     float mRunningSpeed = 5f;
+    [SerializeField]
+    float mWalkingSpeed = 0.5f;
     [SerializeField]
     AudioClip[] mGetaSFX;
     [SerializeField]
@@ -81,8 +83,8 @@ public class Skelton : MonoBehaviour
 
     float SpeedCoff()
     {
-        if (mSkeletonState == SkeletonState.Run) return Mathf.Max(1f, mRunningSpeed);
-        if (mSkeletonState == SkeletonState.Walk) return 1f;
+        if (mSkeletonState == SkeletonState.Run) return Mathf.Max(0f, mRunningSpeed);
+        if (mSkeletonState == SkeletonState.Walk) return Mathf.Max(0f, mWalkingSpeed);
         return 0.0001f;
     }
 
@@ -99,19 +101,19 @@ public class Skelton : MonoBehaviour
             tmp %= 360f;
             if (mWatchingSkeletonState == SkeletonState.Walk)
             {
-                if (mSkeletonState != SkeletonState.Walk && tmp != 0f)
+                if (mSkeletonState != SkeletonState.Walk && (tmp >= 160f && tmp <= 200f))
                 {
                     SetWalkState();
                 }
             }
             else if (mWatchingSkeletonState == SkeletonState.Idle)
             {
-                if (mSkeletonState != SkeletonState.Idle && tmp != 0f)
+                if (mSkeletonState != SkeletonState.Idle && (tmp >= 160f && tmp <= 200f))
                 {
                     //SetWalkState();
                     SetIdleState();
                 }
-                else if (mSkeletonState == SkeletonState.Idle && tmp == 0f)
+                else if (mSkeletonState == SkeletonState.Idle && (tmp < 160f && tmp > 200f))
                 {
                     SetWalkState();
                 }
