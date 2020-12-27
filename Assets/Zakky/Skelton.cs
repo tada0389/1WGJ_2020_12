@@ -33,11 +33,12 @@ public class Skelton : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //mCameraTrans = GameObject.Find("MainCamera").transform;
+
         Vector3 vec = mCameraTrans.position;
         vec.y = transform.position.y;
         var look = Quaternion.LookRotation(vec - transform.position);
         transform.localRotation = look;
-        //transform.DOMove(vec,mMovingTime);
         IniPos = transform.position;
 
         mDisTanceToCamera = (vec - transform.position).magnitude;
@@ -83,22 +84,13 @@ public class Skelton : MonoBehaviour
     {
         if (mSkeletonState == SkeletonState.Walk && mTimer[(int)SkeletonState.Walk].IsTimeout())
         {
-            mSkeletonState = SkeletonState.Run;
-            mTimer[(int)SkeletonState.Run].TimeReset();
-            mGetaTimer = new ZakkyLib.Timer(1f / SpeedCoff());
-        }
-        else if (mSkeletonState == SkeletonState.Run && mTimer[(int)SkeletonState.Run].IsTimeout())
-        {
-            mSkeletonState = SkeletonState.Walk;
-            mTimer[(int)SkeletonState.Walk].TimeReset();
-            mGetaTimer = new ZakkyLib.Timer(1f / SpeedCoff());
+            SetSkeletonState(SkeletonState.Run);
         }
     }
 
     void SetStateIntoAnimator()
     {
         mAnimator.SetBool("IsWalking", mSkeletonState == SkeletonState.Walk);
-        //mAnimator.SetBool("IsDead", mSkeltonState == SkeltonState.Dead);
     }
 
     private void SkeletonMove()
@@ -106,8 +98,15 @@ public class Skelton : MonoBehaviour
         Vector3 vec = mCameraTrans.position - transform.position;
         vec.y = 0f;
         transform.position += vec.normalized * mDisTanceToCamera * SpeedCoff() * (Time.deltaTime / mMovingTime);
+        Debug.Log(mDisTanceToCamera);
     }
 
+    void SetSkeletonState(SkeletonState s)
+    {
+        mSkeletonState = s;
+        mTimer[(int)s].TimeReset();
+        mGetaTimer = new ZakkyLib.Timer(1f / SpeedCoff());
+    }
     public void SetWalkState()
     {
         mSkeletonState = SkeletonState.Walk;
@@ -119,9 +118,4 @@ public class Skelton : MonoBehaviour
     {
         transform.position = IniPos;
     }
-
-    //public void DaedSetter()
-    //{
-    //    mSkeltonState = SkeltonState.Dead;
-    //}
 }
