@@ -25,14 +25,12 @@ public class AnswerTexture : TextureBase
         targetTexture_ = new Texture2D(mainTexture.width, mainTexture.height, TextureFormat.RGBA32, false);
         targetTexture_.filterMode = FilterMode.Point;
 
-        Reset();
+        Reset(0);
     }
 
-    private Color[] Load()
+    private Color[] Load(int level)
     {
-        int keyIndex = Random.Range(0, keyNum_);
-        if (keyIndex == 3) keyIndex = Random.Range(0, keyNum_);
-        return texLoader_.Load(drawColor_, Random.Range(0, keyNum_), Width, Height);
+        return texLoader_.Load(drawColor_, level, Random.Range(0, keyNum_), Width, Height);
     }
 
     private void ApplyTexture()
@@ -58,10 +56,10 @@ public class AnswerTexture : TextureBase
         ApplyTexture();
     }
 
-    public override void Reset()
+    public override void Reset(int level)
     {
         // 鍵データを読み込む
-        Buffer_ = Load();
+        Buffer_ = Load(level);
 
         ApplyTexture();
     }

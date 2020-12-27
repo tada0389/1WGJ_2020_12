@@ -13,11 +13,11 @@ public class TextureLoader : MonoBehaviour
         directoryPath_ = "File";
     }
 
-    public Color[] Load(Color drawColor, int keyIndex, int width, int height)
+    public Color[] Load(Color drawColor, int level, int keyIndex, int width, int height)
     {
         Color[] ret = new Color[width * height];
 
-        string filePath = directoryPath_ + @"\key" + keyIndex.ToString();
+        string filePath = directoryPath_ + @"\level" + level.ToString() + @"\key" + keyIndex.ToString();
         Debug.Log(filePath);
 
         var file = Resources.Load(filePath) as TextAsset;

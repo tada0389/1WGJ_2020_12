@@ -210,7 +210,7 @@ public class ClearCheckController : MonoBehaviour
         {
             // テクスチャ情報をリセットする
             leftTexture_.Reset();
-            rightTexture_.Reset();
+            rightTexture_.Reset(clearNum_);
 
             // テキストを消す
             text_.DOFade(0.0f, 0.25f);
@@ -223,8 +223,10 @@ public class ClearCheckController : MonoBehaviour
             {
                 // レベルテキスト
                 // 座標を変更
+                bool isFinal = (clearNum_ == (doorNum_ + bossDoorNum_ - 1));
+                string level = (isFinal) ? "FINAL" : (clearNum_ + 1).ToString();
                 levelText_.rectTransform.position = levelTextDefaultPos_;
-                levelText_.text = "LEVEL " + (clearNum_ + 1).ToString();
+                levelText_.text = "LEVEL " + level;
                 levelText_.DOFade(1.0f, 0.5f);
                 levelText_.rectTransform.DOMoveY(levelTextDefaultPos_.y + 50f, 0.75f).SetEase(Ease.OutSine);
             }

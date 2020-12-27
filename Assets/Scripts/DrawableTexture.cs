@@ -224,7 +224,7 @@ public class DrawableTexture : TextureBase
         ApplyTexture();
     }
 
-    public override void Reset()
+    public override void Reset(int level = 0)
     {
         // 白紙に戻す
         undoBuffer_.Clear();
