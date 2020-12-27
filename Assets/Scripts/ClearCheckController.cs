@@ -203,6 +203,7 @@ public class ClearCheckController : MonoBehaviour
             yield return new WaitForSeconds(1.5f);
 
             // ランキングボタン、ホームボタンを出す
+            resultCanvasGroup_.gameObject.SetActive(true);
             resultCanvasGroup_.DOFade(1.0f, 0.25f);
         }
         else
