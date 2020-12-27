@@ -75,6 +75,8 @@ public class ClearCheckController : MonoBehaviour
 
     private float prevTime_;
 
+    private bool isGameOver = false;
+
     public static int curScore_ { private set; get; }
 
     // Start is called before the first frame update
@@ -133,6 +135,8 @@ public class ClearCheckController : MonoBehaviour
 
     private void Update()
     {
+        if (isGameOver) return;
+
         if(skeletonCtrl_.transform.localPosition.z > -3f)
         {
             GameOver();
@@ -142,6 +146,18 @@ public class ClearCheckController : MonoBehaviour
     private void GameOver()
     {
         StopAllCoroutines();
+
+        StartCoroutine(GameOverFlow());
+        isGameOver = true;
+    }
+
+    private IEnumerator GameOverFlow()
+    {
+        // 振り向く
+        cameraCtrl_.LookBackward();
+        skeletonCtrl_.enabled = false;
+
+        yield return new WaitForSeconds(0.5f);
 
         // ゲームオーバーシーン
         UnityEngine.SceneManagement.SceneManager.LoadScene("GameOver");
