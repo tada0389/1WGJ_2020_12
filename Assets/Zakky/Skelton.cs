@@ -101,19 +101,19 @@ public class Skelton : MonoBehaviour
             tmp %= 360f;
             if (mWatchingSkeletonState == SkeletonState.Walk)
             {
-                if (mSkeletonState != SkeletonState.Walk && (tmp >= 160f && tmp <= 200f))
+                if (mSkeletonState != SkeletonState.Walk && tmp == 180f)
                 {
                     SetWalkState();
                 }
             }
             else if (mWatchingSkeletonState == SkeletonState.Idle)
             {
-                if (mSkeletonState != SkeletonState.Idle && (tmp >= 160f && tmp <= 200f))
+                if (mSkeletonState != SkeletonState.Idle && tmp == 180f)
                 {
                     //SetWalkState();
                     SetIdleState();
                 }
-                else if (mSkeletonState == SkeletonState.Idle && (tmp < 160f && tmp > 200f))
+                else if (mSkeletonState == SkeletonState.Idle && tmp != 180f)
                 {
                     SetWalkState();
                 }
