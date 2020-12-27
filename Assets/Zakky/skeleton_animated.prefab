@@ -1728,13 +1728,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mCameraTrans: {fileID: 0}
-  mMovingTime: 30
+  mMovingTime: 100
   mRunningSpeed: 5
+  mWalkingSpeed: 0.3
   mGetaSFX:
   - {fileID: 8300000, guid: d26303a1390a9654abbc677628401477, type: 3}
   - {fileID: 8300000, guid: 61e1eacabb614fc459990447eed45563, type: 3}
   - {fileID: 8300000, guid: 6642b6cd8d689824b917a0e92e32e038, type: 3}
   - {fileID: 8300000, guid: f6fc8404263ea614f8f1c00442875e95, type: 3}
+  mTimeTillRun: 20
+  mWatchingSkeletonState: 0
 --- !u!82 &-783856449954974926
 AudioSource:
   m_ObjectHideFlags: 0

@@ -8,9 +8,11 @@ public class Skelton : MonoBehaviour
     [SerializeField]
     Transform mCameraTrans;
     [SerializeField]
-    float mMovingTime = 50f;
+    float mMovingTime = 100f;
     [SerializeField]
     float mRunningSpeed = 5f;
+    [SerializeField]
+    float mWalkingSpeed = 0.3f;
     [SerializeField]
     AudioClip[] mGetaSFX;
     [SerializeField]
@@ -81,8 +83,8 @@ public class Skelton : MonoBehaviour
 
     float SpeedCoff()
     {
-        if (mSkeletonState == SkeletonState.Run) return Mathf.Max(1f, mRunningSpeed);
-        if (mSkeletonState == SkeletonState.Walk) return 1f;
+        if (mSkeletonState == SkeletonState.Run) return Mathf.Max(0f, mRunningSpeed);
+        if (mSkeletonState == SkeletonState.Walk) return Mathf.Max(0f, mWalkingSpeed);
         return 0.0001f;
     }
 
