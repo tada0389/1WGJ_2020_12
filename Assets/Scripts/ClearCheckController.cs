@@ -194,7 +194,7 @@ public class ClearCheckController : MonoBehaviour
             yield return new WaitForSeconds(1.0f);
 
             // UIを消す
-            canvasGroup_.DOFade(0.0f, 0.25f);
+            canvasGroup_.DOFade(0.0f, 0.25f).OnComplete(() => canvasGroup_.gameObject.SetActive(false));
 
             yield return new WaitForSeconds(1.0f);
 
@@ -235,9 +235,9 @@ public class ClearCheckController : MonoBehaviour
                 levelText_.DOFade(0.0f, 0.5f);
 
             if (isClear) prevTime_ = Time.time;
-        }
 
-        isCheking_ = false;
+            isCheking_ = false;
+        }
     }
 
     private float CalcAccuracy()
