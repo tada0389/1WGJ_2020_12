@@ -22,10 +22,13 @@ public class Skelton : MonoBehaviour
     enum SkeletonState
     {
         Walk,
-        Run
+        Run,
+        Idle
     }
 
     SkeletonState mSkeletonState;
+    [SerializeField]
+    SkeletonState mWatchingSkeletonState = SkeletonState.Walk;
 
     ZakkyLib.Timer[] mTimer = new ZakkyLib.Timer[System.Enum.GetNames(typeof(SkeletonState)).Length];
     ZakkyLib.Timer mGetaTimer;
@@ -48,6 +51,7 @@ public class Skelton : MonoBehaviour
         mSkeletonState = SkeletonState.Walk;
         mTimer[(int)SkeletonState.Walk] = new ZakkyLib.Timer(mTimeTillRun + Random.Range(0f, 5f));
         mTimer[(int)SkeletonState.Run] = new ZakkyLib.Timer(99999f);
+        mTimer[(int)SkeletonState.Idle] = new ZakkyLib.Timer(99999f);
 
         mGetaTimer = new ZakkyLib.Timer(1f / SpeedCoff());
 
@@ -79,7 +83,7 @@ public class Skelton : MonoBehaviour
     {
         if (mSkeletonState == SkeletonState.Run) return Mathf.Max(1f, mRunningSpeed);
         if (mSkeletonState == SkeletonState.Walk) return 1f;
-        return 0f;
+        return 0.0001f;
     }
 
     void StateChange()
@@ -88,14 +92,29 @@ public class Skelton : MonoBehaviour
         {
             SetSkeletonState(SkeletonState.Run);
         }
+
         {
             float tmp = mCameraTrans.rotation.eulerAngles.y;
             while (tmp < 0f) tmp += 360f;
             tmp %= 360f;
-            Debug.Log(tmp);
-            if (mSkeletonState != SkeletonState.Walk && 150f < tmp && tmp < 210f)
+            if (mWatchingSkeletonState == SkeletonState.Walk)
             {
-                SetWalkState();
+                if (mSkeletonState != SkeletonState.Walk && tmp != 0f)
+                {
+                    SetWalkState();
+                }
+            }
+            else if (mWatchingSkeletonState == SkeletonState.Idle)
+            {
+                if (mSkeletonState != SkeletonState.Idle && tmp != 0f)
+                {
+                    //SetWalkState();
+                    SetIdleState();
+                }
+                else if (mSkeletonState == SkeletonState.Idle && tmp == 0f)
+                {
+                    SetWalkState();
+                }
             }
         }
     }
@@ -103,6 +122,8 @@ public class Skelton : MonoBehaviour
     void SetStateIntoAnimator()
     {
         mAnimator.SetBool("IsWalking", mSkeletonState == SkeletonState.Walk);
+        mAnimator.SetBool("IsRunning", mSkeletonState == SkeletonState.Run);
+        mAnimator.SetBool("IsIdle", mSkeletonState == SkeletonState.Idle);
     }
 
     private void SkeletonMove()
@@ -124,6 +145,15 @@ public class Skelton : MonoBehaviour
         mTimer[(int)SkeletonState.Walk].TimeReset();
         mGetaTimer = new ZakkyLib.Timer(1f / SpeedCoff());
         Debug.Log(mTimer[(int)SkeletonState.Walk].GetLimitTime());
+    }
+
+    public void SetIdleState()
+    {
+        mSkeletonState = SkeletonState.Idle;
+        mTimer[(int)SkeletonState.Idle].TimeReset();
+        mGetaTimer = new ZakkyLib.Timer(1f / SpeedCoff());
+        Debug.Log(mTimer[(int)SkeletonState.Walk].GetLimitTime());
+
     }
 
     public void SkeletonPosReset()
