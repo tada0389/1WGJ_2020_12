@@ -331,6 +331,6 @@ public class ClearCheckController : MonoBehaviour
     {
         // スコア = max(0.0f, 10.0f - 経過時間) * 500 + 一致率 * 5000
 
-        return (int)(Mathf.Max(0.0f, 10.0f - eclipsedTime) * 500 + accuRate * 2500);
+        return (int)(Mathf.Max(0.0f, 10.0f - eclipsedTime) * 500 + accuRate * 5000);
     }
 }
