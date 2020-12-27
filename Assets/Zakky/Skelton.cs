@@ -8,11 +8,13 @@ public class Skelton : MonoBehaviour
     [SerializeField]
     Transform mCameraTrans;
     [SerializeField]
-    float mMovingTime;
+    float mMovingTime = 50f;
     [SerializeField]
     float mRunningSpeed = 5f;
     [SerializeField]
     AudioClip[] mGetaSFX;
+    [SerializeField]
+    float mTimeTillRun = 20f;
 
     float mDisTanceToCamera;
     Vector3 IniPos;
@@ -44,7 +46,7 @@ public class Skelton : MonoBehaviour
         mDisTanceToCamera = (vec - transform.position).magnitude;
 
         mSkeletonState = SkeletonState.Walk;
-        mTimer[(int)SkeletonState.Walk] = new ZakkyLib.Timer(3f + Random.Range(0f, 5f));
+        mTimer[(int)SkeletonState.Walk] = new ZakkyLib.Timer(mTimeTillRun + Random.Range(0f, 5f));
         mTimer[(int)SkeletonState.Run] = new ZakkyLib.Timer(99999f);
 
         mGetaTimer = new ZakkyLib.Timer(1f / SpeedCoff());
@@ -124,8 +126,12 @@ public class Skelton : MonoBehaviour
         Debug.Log(mTimer[(int)SkeletonState.Walk].GetLimitTime());
     }
 
-    public void SkeltonPosReset()
+    public void SkeletonPosReset()
     {
         transform.position = IniPos;
+    }
+    public void SleketonPosReset(float z)
+    {
+        transform.position += new Vector3(0f, 0f, z);
     }
 }
