@@ -12,7 +12,7 @@ public class Skelton : MonoBehaviour
     [SerializeField]
     float mRunningSpeed = 5f;
     [SerializeField]
-    float mWalkingSpeed = 0.3f;
+    float mWalkingSpeed = 0.5f;
     [SerializeField]
     AudioClip[] mGetaSFX;
     [SerializeField]
@@ -101,19 +101,19 @@ public class Skelton : MonoBehaviour
             tmp %= 360f;
             if (mWatchingSkeletonState == SkeletonState.Walk)
             {
-                if (mSkeletonState != SkeletonState.Walk && tmp != 0f)
+                if (mSkeletonState != SkeletonState.Walk && (tmp >= 160f && tmp <= 200f))
                 {
                     SetWalkState();
                 }
             }
             else if (mWatchingSkeletonState == SkeletonState.Idle)
             {
-                if (mSkeletonState != SkeletonState.Idle && tmp != 0f)
+                if (mSkeletonState != SkeletonState.Idle && (tmp >= 160f && tmp <= 200f))
                 {
                     //SetWalkState();
                     SetIdleState();
                 }
-                else if (mSkeletonState == SkeletonState.Idle && tmp == 0f)
+                else if (mSkeletonState == SkeletonState.Idle && (tmp < 160f && tmp > 200f))
                 {
                     SetWalkState();
                 }
