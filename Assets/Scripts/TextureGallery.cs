@@ -22,9 +22,14 @@ public class TextureGallery : MonoBehaviour
     public void Show()
     {
         // スケールを変更
-        gallery_.transform.localScale = Vector3.one * 0.25f;
+        gallery_.transform.position = new Vector3(0f, -3f, 0f);
+        gallery_.transform.localScale = Vector3.one * 0.2f;
+        gallery_.transform.localEulerAngles = new Vector3(-90f, 0f, 0f);
         gallery_.SetActive(true);
-        gallery_.transform.DOScale(Vector3.one, 1.0f).SetEase(Ease.InOutQuad);
+
+        gallery_.transform.DOScale(Vector3.one, 1.5f).SetEase(Ease.InOutCubic);
+        gallery_.transform.DORotate(Vector3.zero, 1.5f).SetEase(Ease.InOutCubic);
+        gallery_.transform.DOMoveY(0f, 1.5f);
     }
 
     // 正解した絵だけを保存

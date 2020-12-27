@@ -143,6 +143,7 @@ public class ClearCheckController : MonoBehaviour
         float accuRate = CalcAccuracy();
 
         bool isClear = accuRate >= clearThr_;
+        bool isLast = (clearNum_ == (bossDoorNum_ + doorNum_ - 1));
 
         // 正答率の文字の表示
         text_.text = System.String.Format("{0:p2}", 0.0);
@@ -157,13 +158,7 @@ public class ClearCheckController : MonoBehaviour
         DOTween.To(() => tmpRate, (n) => tmpRate = n, accuRate, 0.75f).SetEase(useEase).OnUpdate(
             () => text_.text = System.String.Format("{0:p2}", tmpRate));
 
-        yield return new WaitForSeconds(0.75f);
-
-        // エフェクトを表示
-        if (isClear) ;
-        else;
-
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(1.0f);
 
         // 鍵を下に隠す
         leftParent_.DOMoveY(textureDefaultPos_.y + moveY_, moveDuration_);
@@ -172,7 +167,9 @@ public class ClearCheckController : MonoBehaviour
         // 正解ならドアを開ける
         if (isClear)
         {
-            doorAnimation_.Play("Open", 0, 0.0f);
+            if (!isLast) doorAnimation_.Play("Open", 0, 0.0f);
+            else doorAnimation_.Play("Chest");
+
             int score = CalcScore(curTime - prevTime_, accuRate);
             int tmpScore = curScore_;
             curScore_ += score;
@@ -190,19 +187,20 @@ public class ClearCheckController : MonoBehaviour
 
         yield return new WaitForSeconds(moveDuration_ + 0.1f);
 
-        if (clearNum_ == (bossDoorNum_ + doorNum_))
+        // クリア処理
+        if (isClear && isLast)
         {
-            // Type == Number の場合
-            //naichilab.RankingLoader.Instance.SendScoreAndShowRanking(curScore_);
 
             yield return new WaitForSeconds(1.0f);
 
             // UIを消す
             canvasGroup_.DOFade(0.0f, 0.25f);
 
+            yield return new WaitForSeconds(1.0f);
+
             if (galleryCtrl_ != null) galleryCtrl_.Show();
 
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(1.5f);
 
             // ランキングボタン、ホームボタンを出す
             resultCanvasGroup_.DOFade(1.0f, 0.25f);
