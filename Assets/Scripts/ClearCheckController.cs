@@ -65,6 +65,9 @@ public class ClearCheckController : MonoBehaviour
     [SerializeField]
     private CameraController cameraCtrl_;
 
+    [SerializeField]
+    private UnityEngine.UI.Image antenImage_;
+
 
     private Vector3 textureDefaultPos_;
     private Vector3 levelTextDefaultPos_;
@@ -157,7 +160,10 @@ public class ClearCheckController : MonoBehaviour
         cameraCtrl_.LookBackward();
         skeletonCtrl_.enabled = false;
 
-        yield return new WaitForSeconds(0.5f);
+        antenImage_.gameObject.SetActive(true);
+        antenImage_.DOFade(1.0f, 0.7f).SetEase(Ease.InCubic);
+
+        yield return new WaitForSeconds(0.75f);
 
         // ゲームオーバーシーン
         UnityEngine.SceneManagement.SceneManager.LoadScene("GameOver");
