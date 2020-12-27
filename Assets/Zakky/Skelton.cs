@@ -86,6 +86,16 @@ public class Skelton : MonoBehaviour
         {
             SetSkeletonState(SkeletonState.Run);
         }
+        {
+            float tmp = mCameraTrans.rotation.eulerAngles.y;
+            while (tmp < 0f) tmp += 360f;
+            tmp %= 360f;
+            Debug.Log(tmp);
+            if (mSkeletonState != SkeletonState.Walk && 150f < tmp && tmp < 210f)
+            {
+                SetWalkState();
+            }
+        }
     }
 
     void SetStateIntoAnimator()
@@ -98,7 +108,6 @@ public class Skelton : MonoBehaviour
         Vector3 vec = mCameraTrans.position - transform.position;
         vec.y = 0f;
         transform.position += vec.normalized * mDisTanceToCamera * SpeedCoff() * (Time.deltaTime / mMovingTime);
-        Debug.Log(mDisTanceToCamera);
     }
 
     void SetSkeletonState(SkeletonState s)
@@ -112,6 +121,7 @@ public class Skelton : MonoBehaviour
         mSkeletonState = SkeletonState.Walk;
         mTimer[(int)SkeletonState.Walk].TimeReset();
         mGetaTimer = new ZakkyLib.Timer(1f / SpeedCoff());
+        Debug.Log(mTimer[(int)SkeletonState.Walk].GetLimitTime());
     }
 
     public void SkeltonPosReset()
