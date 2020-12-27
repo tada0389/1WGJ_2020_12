@@ -55,10 +55,10 @@ public class Skelton : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            SetWalkState();
-        }
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    SetWalkState();
+        //}
 
         StateChange();
 

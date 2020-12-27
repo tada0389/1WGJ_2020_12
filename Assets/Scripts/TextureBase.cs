@@ -14,5 +14,5 @@ public abstract class TextureBase : MonoBehaviour
 
     public abstract void ChangeColor();
 
-    public abstract void Reset();
+    public abstract void Reset(int level = 0);
 }
