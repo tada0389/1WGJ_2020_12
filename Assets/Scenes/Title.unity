@@ -966,7 +966,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4278190080
   m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -991,8 +991,8 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -1051,7 +1051,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 720, y: 440}
+  m_SizeDelta: {x: 650, y: 210}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &742256014
 GameObject:
@@ -1204,7 +1204,7 @@ MonoBehaviour:
   onButton_: {fileID: 308762393}
   offButton_: {fileID: 1537435774}
   ruleCloseButton_: {fileID: 1477788621}
-  ruleExplonation_: "<\u30EB\u30FC\u30EB\u8AAC\u660E>"
+  ruleExplonation_: "\u30C8\u30EC\u30B8\u30E3\u30FC\u30CF\u30F3\u30BF\u30FC\u306E\u30AA\u30DE\u30A8\u306F\r\n\u30A2\u30B9\u30C7\u30AB\u30AD\u30F3\u30B0\u30B5\u30DE\u3092<color=red>\u6012\u3089\u305B\u305F</color>\r\n\u30AC\u30A4\u30B3\u30C4\u304C\u8FFD\u3044\u304B\u3051\u3066\u304F\u308B\u305E\r\n\u305D\u306E\u524D\u306B\u9B54\u6CD5\u306E\u30DA\u30F3\u3067<color=blue>\u9375\u3092\u4F5C\u3063\u3066</color>\u9003\u3052\u3060\u3059\u3093\u3060\r\n\u9375\u306F70%\u304F\u3089\u3044\u4E00\u81F4\u3059\u308B\u3068\u6709\u52B9\u3060\u305E\r\n\u3061\u306A\u307F\u306B\u30AC\u30A4\u30B3\u30C4\u306F\u6065\u305A\u304B\u3057\u304C\u308A\u5C4B\u3060\u305D\u3046\u3060"
 --- !u!4 &761036152
 Transform:
   m_ObjectHideFlags: 0
