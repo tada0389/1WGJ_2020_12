@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class TextureGallery : MonoBehaviour
 {
@@ -20,7 +21,10 @@ public class TextureGallery : MonoBehaviour
 
     public void Show()
     {
+        // スケールを変更
+        gallery_.transform.localScale = Vector3.one * 0.25f;
         gallery_.SetActive(true);
+        gallery_.transform.DOScale(Vector3.one, 1.0f).SetEase(Ease.InOutQuad);
     }
 
     // 正解した絵だけを保存
