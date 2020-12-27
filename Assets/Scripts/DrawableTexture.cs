@@ -153,7 +153,6 @@ public class DrawableTexture : TextureBase
 
     private void Undo()
     {
-        Debug.Log(undoBuffer_.Count);
         if (undoBuffer_.Count == 0) return;
 
         Buffer_ = null;
