@@ -55,6 +55,25 @@ public class CameraController : MonoBehaviour
         }
     }
 
+    public void LookBackward()
+    {
+        lock_ = true;
+
+        float prevDif = Time.time - time_;
+        float newDuration = duration_ - Mathf.Max(0f, duration_ - prevDif);
+
+        if (curDir_ == eDir.Forward)
+        {
+            curDir_ = eDir.Backward;
+
+            // 先頭を向く
+            transform.DOKill();
+            transform.DORotate(new Vector3(0f, 180f, 0f), newDuration).SetEase(turnEase_);
+
+            lookText_.text = "TURN";
+        }
+    }
+
     public void OnTurnAroundButtonClicked()
     {
         if (lock_) return;
