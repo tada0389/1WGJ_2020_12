@@ -37,23 +37,34 @@ public class Skelton : MonoBehaviour
 
     Animator mAnimator;
     AudioSource mAudioSource;
+
     // Start is called before the first frame update
     void Start()
     {
-        //mCameraTrans = GameObject.Find("MainCamera").transform;
+        {
+            Vector3 vecCamera = mCameraTrans.position;
+            vecCamera.y = transform.position.y;
+            Vector3 vecToCamera = vecCamera - transform.position;
 
-        Vector3 vec = mCameraTrans.position;
-        vec.y = transform.position.y;
-        var look = Quaternion.LookRotation(vec - transform.position);
-        transform.localRotation = look;
-        IniPos = transform.position;
+            var look = Quaternion.LookRotation(vecToCamera);
+            transform.localRotation = look;
 
-        mDisTanceToCamera = (vec - transform.position).magnitude;
+            mDisTanceToCamera = (vecToCamera).magnitude;
+
+            IniPos = transform.position;
+        }
 
         mSkeletonState = SkeletonState.Walk;
-        mTimer[(int)SkeletonState.Walk] = new ZakkyLib.Timer(mTimeTillRun + Random.Range(0f, 5f));
-        mTimer[(int)SkeletonState.Run] = new ZakkyLib.Timer(99999f);
-        mTimer[(int)SkeletonState.Idle] = new ZakkyLib.Timer(99999f);
+        for (int i = 0; i < System.Enum.GetNames(typeof(SkeletonState)).Length; i++)
+        {
+            float t;
+            if (i == (int)SkeletonState.Walk) t = mTimeTillRun + Random.Range(0f, 5f);
+            else t = 99999f;
+            mTimer[i] = new ZakkyLib.Timer(t);
+        }
+        //mTimer[(int)SkeletonState.Walk] = new ZakkyLib.Timer(mTimeTillRun + Random.Range(0f, 5f));
+        //mTimer[(int)SkeletonState.Run] = new ZakkyLib.Timer(99999f);
+        //mTimer[(int)SkeletonState.Idle] = new ZakkyLib.Timer(99999f);
 
         mGetaTimer = new ZakkyLib.Timer(1f / SpeedCoff());
 
@@ -63,22 +74,13 @@ public class Skelton : MonoBehaviour
 
     void Update()
     {
-        //if (Input.GetMouseButtonDown(0))
-        //{
-        //    SetWalkState();
-        //}
-
         StateChange();
 
         SetStateIntoAnimator();
 
         SkeletonMove();
 
-        if (mGetaTimer.IsTimeout())
-        {
-            mAudioSource.PlayOneShot(mGetaSFX[Random.Range(0, mGetaSFX.Length)]);
-            mGetaTimer.TimeReset();
-        }
+        PlayGetaSFX();
     }
 
     float SpeedCoff()
@@ -96,27 +98,27 @@ public class Skelton : MonoBehaviour
         }
 
         {
-            float tmp = mCameraTrans.rotation.eulerAngles.y;
-            while (tmp < 0f) tmp += 360f;
-            tmp %= 360f;
-            if (mWatchingSkeletonState == SkeletonState.Walk)
+            float tmpRotY = mCameraTrans.rotation.eulerAngles.y;
+            while (tmpRotY < 0f) tmpRotY += 360f;
+            tmpRotY %= 360f;
+            switch (mWatchingSkeletonState)
             {
-                if (mSkeletonState != SkeletonState.Walk && tmp == 180f)
-                {
-                    SetWalkState();
-                }
-            }
-            else if (mWatchingSkeletonState == SkeletonState.Idle)
-            {
-                if (mSkeletonState != SkeletonState.Idle && tmp == 180f)
-                {
-                    //SetWalkState();
-                    SetIdleState();
-                }
-                else if (mSkeletonState == SkeletonState.Idle && tmp != 180f)
-                {
-                    SetWalkState();
-                }
+                case SkeletonState.Walk:
+                    if (mSkeletonState != SkeletonState.Walk && tmpRotY == 180f)
+                    {
+                        SetWalkState();
+                    }
+                    break;
+                case SkeletonState.Idle:
+                    if (mSkeletonState != SkeletonState.Idle && tmpRotY == 180f)
+                    {
+                        SetIdleState();
+                    }
+                    else if (mSkeletonState == SkeletonState.Idle && tmpRotY != 180f)
+                    {
+                        SetWalkState();
+                    }
+                    break;
             }
         }
     }
@@ -141,6 +143,7 @@ public class Skelton : MonoBehaviour
         mTimer[(int)s].TimeReset();
         mGetaTimer = new ZakkyLib.Timer(1f / SpeedCoff());
     }
+
     public void SetWalkState()
     {
         mSkeletonState = SkeletonState.Walk;
@@ -158,10 +161,20 @@ public class Skelton : MonoBehaviour
 
     }
 
+    void PlayGetaSFX()
+    {
+        if (mGetaTimer.IsTimeout())
+        {
+            mAudioSource.PlayOneShot(mGetaSFX[Random.Range(0, mGetaSFX.Length)]);
+            mGetaTimer.TimeReset();
+        }
+    }
+
     public void SkeletonPosReset()
     {
         transform.position = IniPos;
     }
+
     public void SleketonPosReset(float z)
     {
         transform.position += new Vector3(0f, 0f, z);
